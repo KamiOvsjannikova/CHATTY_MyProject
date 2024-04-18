@@ -1,46 +1,51 @@
 package tests;
 
-import dto.LoginRequest;
-import dto.UserUpdateResponse
+import dto.*;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
+import static tests.BaseTest.*;
 
-public class UserUpdateTest {
+import com.github.javafaker.Faker;
+
+public class UserUpdateTest extends BaseTest {
+    Faker faker = new Faker();// dlja random email/phone i t.d.
+    String userEmail = faker.internet().emailAddress();
+    String userPassword = faker.regexify("[a-zA-Z0-9]{8,10}");
+    String confirmPassword = userPassword;
+    String role = "user";
+
     @Test
-    public void successUserUpdate(){
-        String email = "testUpdateId@gmail.ru";
-        String password = "Milla2103Test";
-        LoginRequest requestBody = new LoginRequest(email, password);
-        String accessToken = given()
-                .contentType(ContentType.JSON)
-                .body(loginRequest)
-                .when()
-                .post("/login") // Предположим, что у вас есть эндпоинт для аутентификации
-                .then()
-                .statusCode(200)
-                .extract()
-                .path("accessToken");
-
-        UserUpdateResponse updatedUser = given()
-                .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + accessToken) // Передача токена доступа в заголовке
-                .body(buildUserUpdateRequestBody()) // Здесь вызывается метод для построения тела запроса на обновление пользователя
-                .when()
-                .put("/updateUser/{userId}", "userId") // Предположим, что у вас есть эндпоинт для обновления пользователя
-                .then()
-                .statusCode(200)
-                .extract()
-                .as(UserUpdateResponse.class);
-    }
-    @Test
-    public void unsuccessfulUserUpdate(){ //swagger error 400 Error
-        String email = "testUpdateId@gmail.ru";
-        String password = "Milla2103Test";
-        LoginRequest requestBody = new LoginRequest(email, password);
-
+    public void successUserUpdate()  {
+        // snachala novij user
+        CreateUserRequest reqBodyBuilder = CreateUserRequest.builder()
+                .email(userEmail)
+                .password(userPassword)
+                .confirmPassword(userPassword)
+                .role(role)
+                .build();
+        LoginResponseSuccess user = postRequest("/auth/register", 201, reqBodyBuilder)                            //pokazivaet 201 u menja, v swagger 200
+                .body().jsonPath()
+                .getObject("", LoginResponseSuccess.class);
+// poluchaju Access Token
+        String accessToken = user.getAccessToken();
+        Response getUserResponse =  getRequestWithTokenUserID("/me", 200, accessToken);
+        String userId = getUserResponse.body().jsonPath().getString("id");
+        //object dlja obnov profile, a imnenno Name
+        UserUpdateRequest updateProfileRequest = UserUpdateRequest.builder()
+                .name("UpdateName")
+                .build();
+        // PUT zapros na obovlenie profile
+        String endPoint = "/users/" + userId;
+        // Otpravljau PUT na obnovlenie
+        Response response = BaseTest.putRequest(endPoint, 200,accessToken, updateProfileRequest);
+        // proverka
+        response.then().statusCode(200);
+        // izvlekaju name and proverka
+        String updateName = response.jsonPath().getString("name");
+        assertEquals("UpdateName", updateName);
     }
 }
