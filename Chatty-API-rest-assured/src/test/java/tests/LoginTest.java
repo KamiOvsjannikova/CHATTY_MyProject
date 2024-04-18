@@ -19,24 +19,9 @@ public class LoginTest {
                 .body().jsonPath()
                 .getObject("",LoginResponseSuccess.class);
 
-
-        //proverka
         assertFalse(responseSuccessBody.getAccessToken().isEmpty());
         assertFalse(responseSuccessBody.getRefreshToken().isEmpty());
         assertFalse(responseSuccessBody.getExpiration().isEmpty());
-    }
-    @Test
-    public void userUserLoginWithInvalidEmail() {
-        String email = "testQA311023@gmail.co";
-        String password = "Milla2103";
-        LoginRequest requestBody = new LoginRequest(email, password);
-        LoginResponseError responseErrorBody = postRequestWithoutAccessToken("/auth/login", 401, requestBody) // bug report error 404
-                .body().jsonPath()
-                .getObject("", LoginResponseError.class);
-
-        //proverka
-        assertEquals("Unauthorized", responseErrorBody.getHttpStatus());
-        assertEquals("The password does not match the one saved in the database!", responseErrorBody.getHttpStatus());
     }
 
     @Test
@@ -48,7 +33,32 @@ public class LoginTest {
         LoginResponseError responseErrorBody = postRequestWithoutAccessToken("/auth/login", 400, requestBodyBuilder)
                 .body().jsonPath()
                 .getObject("", LoginResponseError.class);
-//proverka
+
         assertEquals("Email cannot be empty", responseErrorBody.getEmail().get(0));
+    }
+
+    @Test
+    public void userUserLoginWithInvalidPassword() {
+        String email = "testQA311023@gmail.com";
+        String password = "Milla25489";
+        LoginRequest requestBody = new LoginRequest(email, password);
+        LoginResponseError responseErrorBody = postRequestWithoutAccessToken("/auth/login", 401, requestBody)
+                .body().jsonPath()
+                .getObject("", LoginResponseError.class);
+        assertEquals("UNAUTHORIZED", responseErrorBody.getHttpStatus());
+    }
+
+
+
+    @Test
+    public void userUserLoginWithInvalidEmail() {
+        String email = "testQQAfghh";
+        String password = "Milla2103";
+        LoginRequest requestBody = new LoginRequest(email, password);
+        LoginResponseError responseErrorBody = postRequestWithoutAccessToken("/auth/login", 400, requestBody) // bug report error 400
+                .body().jsonPath()
+                .getObject("", LoginResponseError.class);
+        
+        assertEquals("Invalid email format", responseErrorBody.getEmail().get(0));
     }
 }
