@@ -19,13 +19,12 @@ public class GetUserTokenTest {
         String password = "Milla2103";
         UserTokenRequest requestBody = new UserTokenRequest(email, password);
         UserTokenResponse responseBody = postRequestWithoutAccessToken("/auth/login",200, requestBody)
-                .body().jsonPath().
-                getObject("", UserTokenResponse.class);
+                .body().jsonPath()
+                        .getObject("", UserTokenResponse.class);
         String accessToken = responseBody.getAccessToken();
         GetUserResponse getUserResponse = getRequestWithToken("/me", 200,accessToken)
                 .body().jsonPath()
-                        .getObject("",GetUserResponse.class);
-
+                .getObject("",GetUserResponse.class);
 
         assertFalse(getUserResponse.getId().isEmpty());
         assertFalse(getUserResponse.getName().isEmpty());
@@ -37,20 +36,23 @@ public class GetUserTokenTest {
         assertFalse(getUserResponse.getBirthDate().isEmpty());
         assertFalse(getUserResponse.getBackgroundUrl().isEmpty());
         assertFalse(getUserResponse.getAvatarUrl().isEmpty());
-
-//        assertFalse(responseBody.getAccessToken().isEmpty());
-//        assertFalse(responseBody.getRefreshToken().isEmpty());
-//        assertFalse(responseBody.getExpiration().isEmpty());
     }
 
+    //Unauthorized
     @Test
-    public void getUserList(){
-        List<GetUserResponse> users = getRequest("/users", 200)
+    public void unauthorizedUser(){
+        String email = "testQA311023@gmail.com";
+        String password = "Milla2103";
+        UserTokenRequest requestBody = new UserTokenRequest(email, password);// Эта строка создает новый объект
+        UserTokenResponse responseBody = postRequestWithoutAccessToken("/auth/login",200, requestBody) //- Эта строка отправляет POST-запрос к конечной точке /auth/login с кодом состояния 200 и requestBody в качестве тела запроса. Она ожидает ответ в виде UserTokenResponse.
+                .body().jsonPath().
+                getObject("", UserTokenResponse.class);// Эта часть извлекает JSON-тело ответа POST-запроса и отображает его на объект UserTokenResponse.
+        String accessToken = responseBody.getAccessToken();//Эта строка извлекает токен доступа из объекта UserTokenResponse, полученного из предыдущего запроса.
+        GetUserResponse getUserResponse = getRequestWithToken("/me", 401,accessToken)//Эта строка отправляет GET-запрос к конечной точке /me с кодом состояния 200 и accessToken в качестве токена в заголовке запроса. Она ожидает ответ в виде GetUserResponse.
                 .body().jsonPath()
-                .getList("",GetUserResponse.class);
-        for (GetUserResponse user : users){
-            assertFalse(user.getEmail().isEmpty());
-        }
+                .getObject("",GetUserResponse.class);
+        assertFalse(responseBody.getAccessToken().isEmpty());
+        assertFalse(responseBody.getRefreshToken().isEmpty());
+        assertFalse(responseBody.getExpiration().isEmpty());
     }
-
 }
