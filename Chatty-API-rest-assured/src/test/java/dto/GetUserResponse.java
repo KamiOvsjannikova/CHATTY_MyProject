@@ -18,18 +18,4 @@ public class GetUserResponse {
     private String birthDate;
     private String role;
     private String backgroundUrl;
-
-
-
-
-//    "id": "string",
-//            "name": "string",
-//            "surname": "string",
-//            "phone": "string",
-//            "email": "string",
-//            "role": "USER",
-//            "gender": "MALE",
-//            "birthDate": "2024-04-11T10:22:17.505Z",
-//            "avatarUrl": "string",
-//            "backgroundUrl": "string"
 }
