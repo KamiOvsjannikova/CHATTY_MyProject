@@ -1,13 +1,7 @@
 package org.example;
-
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-
 import java.io.File;
 import java.time.Duration;
-
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byClassName;
 import static com.codeborne.selenide.Selenide.*;
@@ -24,6 +18,18 @@ public class BlogUserPage {
     private SelenideElement submitButton = $("[type='submit']");
     private SelenideElement myPost = $("div:nth-child(5) div:nth-child(2) div:nth-child(2) h3:nth-child(1)");//$x("body > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(5) > div:nth-child(2) > div:nth-child(2) > h3:nth-child(1)");//najti moj opublikovannij post sredi vsex
     private SelenideElement draftTumbler = $("label[for='draftCheckbox']"); // tumbler draft
+    private SelenideElement textErrorEmptyTitle = $("body > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > form:nth-child(1) > div:nth-child(1) > p:nth-child(2)"); // dlja error message
+    private SelenideElement textErrorEmptyDescription = $("body > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > form:nth-child(1) > div:nth-child(2) > p:nth-child(2)");
+    private SelenideElement textErrorEmptyContent = $("body > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > form:nth-child(1) > div:nth-child(3) > p:nth-child(2)");
+    public SelenideElement getErrorMassageTextContent() {
+        return textErrorEmptyContent;
+    }
+    public SelenideElement getErrorMassageTextDescription() {
+        return textErrorEmptyDescription;
+    }
+    public SelenideElement getErrorMassageTextTitle() {
+        return textErrorEmptyTitle;
+    }
 
 
     public  void clickOnSaveInDraft(){
@@ -32,10 +38,6 @@ public class BlogUserPage {
 
     public SelenideElement getMyPostElement() {
         return myPost;
-    }
-
-    public void myPostIsDisplayed() {
-        getMyPostElement().shouldHave(text("Hello my Test"));
     }
     public void  clickOnSubmitButton(){
         submitButton.click();
@@ -64,5 +66,4 @@ public class BlogUserPage {
         titleInputField.shouldHave(visible, Duration.ofSeconds(10));
         titleInputField.setValue(titleValue);
     }
-
 }
