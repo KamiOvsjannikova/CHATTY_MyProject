@@ -12,25 +12,14 @@ public class BaseTest {
 
     @Before
     public void setUp() {
-        //vremja ozidanija
         Configuration.timeout = 10000;
-//        Configuration.fastSetValue= true;
-//        Configuration.clickViaJs= true; // mozet ponadobistja esli bannerom zakrito
-//        Configuration.browser = "firefox";
-//        Configuration.browserSize = "300x300";
-//        Configuration.headless = true; //okno ne otkrivaetsja
-//        open(REG_URL);
-//        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-
-        open(BASE_URL); // argument - eto ssilka //open -eto dlja otkritija str
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());//sluwaet chto proisxodit i printscreen scrennshot
-
+        open(BASE_URL);
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
-
 
     @After
     public void tearDown() {
-        closeWebDriver();//zakritj browser
+        closeWebDriver();
     }
         RegistrationPage registrationPage = new RegistrationPage();
         LoginPage loginPage = new LoginPage();
@@ -38,9 +27,4 @@ public class BaseTest {
         HomeBlogPage homeBlogPage = new HomeBlogPage();
         BlogUserPage blogUserPage = new BlogUserPage();
         DraftPage draftPage = new DraftPage();
-
     }
-
-
-
-
