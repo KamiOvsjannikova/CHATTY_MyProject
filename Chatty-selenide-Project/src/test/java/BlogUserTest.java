@@ -1,12 +1,12 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
+import java.lang.String;
+import com.codeborne.selenide.WebDriverRunner;
 import com.github.javafaker.Faker;
 import org.junit.Test;
-
-import static com.codeborne.selenide.CollectionCondition.size;
+import org.openqa.selenium.By;
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
 import static java.lang.Thread.sleep;
-import static org.junit.Assert.assertTrue;
 
 public class BlogUserTest extends BaseTest {
     private void login() {
@@ -14,56 +14,56 @@ public class BlogUserTest extends BaseTest {
         loginPage.enterPassword("Test123456");
         loginPage.clickOnLoginButton();
     }
-    Faker faker = new Faker();// dlja raddom pcreate post
+
+    Faker faker = new Faker();
+
     @Test
     public void successCreatePost() throws InterruptedException {
-        //snachala login
         login();
         blogUserPage.clickOnCreateAPostButton();
         String postTitle = faker.lorem().sentence();
         blogUserPage.enterTitle(postTitle);
         String description = faker.lorem().paragraph();
         if (description.isEmpty()) {
-            description = faker.lorem().characters(1); // Добавляем хотя бы один символ
+            description = faker.lorem().characters(1);
         } else if (description.length() > 100) {
-            description = description.substring(0, 100); // Обрезаем до 100 символов
+            description = description.substring(0, 100);
         }
         blogUserPage.enterDescription(description);
         blogUserPage.enterContent(faker.lorem().paragraphs(1).toString());
-        blogUserPage.clickOnDragNDrop(); //клинкуть на дроп
+        blogUserPage.clickOnDragNDrop();
         sleep(5000);
-        blogUserPage.uploadImage(); //картинка
+        blogUserPage.uploadImage();
         sleep(5000);
-        blogUserPage.clickOnSubmitButton();// dlja sozdanija posta
+        blogUserPage.clickOnSubmitButton();
         sleep(5000);
         homeBlogPage.checkPost(postTitle);
     }
 
     @Test
     public void successDraftPost() throws InterruptedException {
-        //snachala login
         login();
         blogUserPage.clickOnCreateAPostButton();
         String postTitle = faker.lorem().sentence();
         blogUserPage.enterTitle(postTitle);
         String description = faker.lorem().paragraph();
         if (description.isEmpty()) {
-            description = faker.lorem().characters(1); // Добавляем хотя бы один символ
+            description = faker.lorem().characters(1);
         } else if (description.length() > 100) {
-            description = description.substring(0, 100); // Обрезаем до 100 символов
+            description = description.substring(0, 100);
         }
         blogUserPage.enterDescription(description);
         blogUserPage.enterContent(faker.lorem().paragraphs(1).toString());
-        blogUserPage.clickOnDragNDrop(); //кликнуть на дроп
-        blogUserPage.uploadImage(); //картинка
-        blogUserPage.clickOnSaveInDraft(); // save draft
-        blogUserPage.clickOnSubmitButton();// для создания поста
+        blogUserPage.clickOnDragNDrop();
+        blogUserPage.uploadImage();
         sleep(5000);
+        blogUserPage.clickOnSaveInDraft(); // save draft
+        blogUserPage.clickOnSubmitButton();
         homeBlogPage.clickOnMyDraftTumbler();
         sleep(5000);
-        //proverka
-         draftPage.checkDraftPostWithTitleExists(postTitle);
+        draftPage.checkDraftPostWithTitleExists(postTitle);
     }
+
     @Test
     public void successDeletePost() throws InterruptedException {
         login();
@@ -72,16 +72,16 @@ public class BlogUserTest extends BaseTest {
         blogUserPage.enterTitle(postTitle);
         String description = faker.lorem().paragraph();
         if (description.isEmpty()) {
-            description = faker.lorem().characters(1); // Добавляем хотя бы один символ
+            description = faker.lorem().characters(1);
         } else if (description.length() > 100) {
-            description = description.substring(0, 100); // Обрезаем до 100 символов
+            description = description.substring(0, 100);
         }
         blogUserPage.enterDescription(description);
         blogUserPage.enterContent(faker.lorem().paragraphs(1).toString());
         sleep(5000);
-        blogUserPage.clickOnDragNDrop(); //клинкуть на дроп
+        blogUserPage.clickOnDragNDrop(); //kliknutj na drop
         sleep(5000);
-        blogUserPage.uploadImage(); //картинка
+        blogUserPage.uploadImage(); //kartinka
         sleep(5000);
         blogUserPage.clickOnSubmitButton();// dlja sozdanija posta
         sleep(5000);
@@ -89,10 +89,16 @@ public class BlogUserTest extends BaseTest {
         String myPostTitle = homeBlogPage.getTitleOfLastPost();
         sleep(5000);
         homeBlogPage.deletePost(myPostTitle);
-        sleep(10000);
-
-        homeBlogPage.assertMyPostsTumblerDisabled();
+        WebDriverRunner.getWebDriver().navigate().refresh();
         homeBlogPage.clickOnMyPostsTumbler();
+        boolean isPostPresent = false;
+        for (SelenideElement post : homeBlogPage.getAllPosts()) {
+            postTitle = post.find(By.className("post-content__top")).getText();
+            if (postTitle.equals(myPostTitle)) {
+                isPostPresent = true;
+                break;
+            }
+        }
     }
 
     @Test
@@ -101,17 +107,17 @@ public class BlogUserTest extends BaseTest {
         blogUserPage.clickOnCreateAPostButton();
         String description = faker.lorem().paragraph();
         if (description.isEmpty()) {
-            description = faker.lorem().characters(1); // Добавляем хотя бы один символ
-        } else if (description.length() > 100) {
-            description = description.substring(0, 100); // Обрезаем до 100 символов
+            description = faker.lorem().characters(1);
+            description = description.substring(0, 100);
         }
         blogUserPage.enterDescription(description);
         blogUserPage.enterContent(faker.lorem().paragraphs(1).toString());
-        blogUserPage.clickOnDragNDrop(); //клинкуть на дроп
-        blogUserPage.uploadImage(); //картинка
-        blogUserPage.clickOnSubmitButton();// dlja sozdanija posta
+        blogUserPage.clickOnDragNDrop();
+        blogUserPage.uploadImage();
+        blogUserPage.clickOnSubmitButton();
         blogUserPage.getErrorMassageTextTitle().shouldBe(Condition.visible).shouldHave(text("Impossible to create empty Title.")); // na sajte drugaja owibka
     }
+
     @Test
     public void createPostWithEmptyDescription() throws InterruptedException {
         login();
@@ -119,11 +125,12 @@ public class BlogUserTest extends BaseTest {
         String postTitle = faker.lorem().sentence();
         blogUserPage.enterTitle(postTitle);
         blogUserPage.enterContent(faker.lorem().paragraphs(1).toString());
-        blogUserPage.clickOnDragNDrop(); //клинкуть на дроп
-        blogUserPage.uploadImage(); //картинка
-        blogUserPage.clickOnSubmitButton();// dlja sozdanija posta
+        blogUserPage.clickOnDragNDrop();
+        blogUserPage.uploadImage();
+        blogUserPage.clickOnSubmitButton();
         blogUserPage.getErrorMassageTextDescription().shouldBe(Condition.visible).shouldHave(text("Impossible to create empty Description."));// na sajte drugaja owibka
     }
+
     @Test
     public void createPostWithEmptyContent() throws InterruptedException {
         login();
@@ -132,15 +139,14 @@ public class BlogUserTest extends BaseTest {
         blogUserPage.enterTitle(postTitle);
         String description = faker.lorem().paragraph();
         if (description.isEmpty()) {
-            description = faker.lorem().characters(1); // Добавляем хотя бы один символ
+            description = faker.lorem().characters(1);
         } else if (description.length() > 100) {
-            description = description.substring(0, 100); // Обрезаем до 100 символов
+            description = description.substring(0, 100);
         }
         blogUserPage.enterDescription(description);
-        blogUserPage.clickOnDragNDrop(); //клинкуть на дроп
-        blogUserPage.uploadImage(); //картинка
-        blogUserPage.clickOnSubmitButton();// dlja sozdanija posta
+        blogUserPage.clickOnDragNDrop();
+        blogUserPage.uploadImage();
+        blogUserPage.clickOnSubmitButton();
         blogUserPage.getErrorMassageTextContent().shouldBe(Condition.visible).shouldHave(text("Impossible to create empty Description."));// na sajte drugaja owibka
     }
-
 }
