@@ -1,14 +1,12 @@
 import com.codeborne.selenide.Condition;
 import com.github.javafaker.Faker;
 import org.junit.Test;
-import org.testng.annotations.BeforeMethod;
-
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static org.junit.Assert.assertTrue;
+
 
 public class RegistrationTest extends BaseTest {
-    Faker faker = new Faker();// dlja random email/phone i t.d.
+    Faker faker = new Faker();
 
     @Test
     public void successUserRegistration() {
@@ -19,7 +17,6 @@ public class RegistrationTest extends BaseTest {
         String phone = "+849765455322";
         String password = faker.internet().password();
         String confirmPassword = password;
-
         loginPage.clickOnSignUp();
         registrationPage.enterEmail(userEmail);
         registrationPage.enterName(firstName);
@@ -32,7 +29,7 @@ public class RegistrationTest extends BaseTest {
         registrationPage.enterConfirmPassword(confirmPassword);
         registrationPage.clickOnRegistrationButton();
         homeBlogPage.getHeaderUser().shouldBe(visible).shouldHave(text("Hello"));
-        homeBlogPage.getLogo().shouldBe(visible);//logo
+        homeBlogPage.getLogo().shouldBe(visible);
     }
 
     @Test
@@ -40,27 +37,25 @@ public class RegistrationTest extends BaseTest {
         String userEmail = faker.internet().emailAddress();
         String password = faker.internet().password();
         String confirmPassword = password;
-
         loginPage.clickOnSignUp();
         registrationPage.enterEmail(userEmail);
         registrationPage.enterPassword(password);
         registrationPage.enterConfirmPassword(confirmPassword);
         registrationPage.clickOnRegistrationButton();
         homeBlogPage.getHeaderUser().shouldBe(visible).shouldHave(text("Hello"));
-        homeBlogPage.getLogo().shouldBe(visible);//logo
+        homeBlogPage.getLogo().shouldBe(visible);
     }
     @Test
     public void registrationWithEmptyEmail(){
         String password = faker.internet().password();
         String confirmPassword = password;
-
         loginPage.clickOnSignUp();
         registrationPage.enterPassword(password);
         registrationPage.enterConfirmPassword(confirmPassword);
         registrationPage.getErrorTextEmailEmpty().shouldBe(Condition.visible).shouldHave(text("Email cannot be empty"));
     }
     @Test
-    public void registrationWithoutSymbolAtEmail(){ // zavalivaetsja
+    public void registrationWithoutSymbolAtEmail(){
         String userEmail = faker.internet().safeEmailAddress();
         String password = faker.internet().password();
         String confirmPassword = password;
@@ -71,7 +66,6 @@ public class RegistrationTest extends BaseTest {
         registrationPage.enterConfirmPassword(confirmPassword);
         registrationPage.getTextErrorIncorrectEmailFormat().shouldBe(Condition.visible).shouldHave(text("Incorrect email format"));
     }
-
 
     @Test
     public void registrationWithPasswordEmpty(){
