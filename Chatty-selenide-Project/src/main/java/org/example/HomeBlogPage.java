@@ -1,11 +1,10 @@
 package org.example;
-
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-import static com.codeborne.selenide.Condition.checked;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byClassName;
 import static com.codeborne.selenide.Selenide.*;
@@ -19,9 +18,13 @@ public class HomeBlogPage {
     private ElementsCollection allMyPosts = $$ (byClassName("posts__section"));
 
 
-    public void assertMyPostsTumblerDisabled() {
-        // Проверяем, что тумблер myPosts отключен
-        myPostsTumbler.shouldNotBe(checked);
+    private ElementsCollection allPosts = $$ (byClassName("posts__section"));
+    public  static void refreshPage() {
+        WebDriverRunner.getWebDriver().navigate().refresh();
+    }
+
+    public ElementsCollection getAllPosts(){ //dlja kollekcii
+        return allPosts;
     }
 
     public String getTitleOfLastPost() {
@@ -29,11 +32,8 @@ public class HomeBlogPage {
     }
 
     public void deletePost(String postTitle) {
-        allMyPosts.filterBy(text(postTitle)).first().click(); // Предполагается, что заголовки уникальны
-        // Ваш код для удаления поста
+        allMyPosts.filterBy(text(postTitle)).first().click();
     }
-
-
     public void chooseMyPosts(String postTitle) {
         allMyPosts.filterBy(text(postTitle)).shouldHave(sizeGreaterThan(0));
     }
@@ -43,8 +43,6 @@ public class HomeBlogPage {
     public void checkPost(String postTitle) {
         postContent.filterBy(text(postTitle)).shouldHave(sizeGreaterThan(0));
     }
-
-
     public void clickOnMyDraftTumbler(){
         myDraftTumbler.click();
     }
@@ -54,8 +52,5 @@ public class HomeBlogPage {
     }
     public SelenideElement getHeaderUser() {
         return headerUser;
-    }
-    public boolean headerUserIsDisplayed(){
-        return headerUser.isDisplayed();
     }
 }
