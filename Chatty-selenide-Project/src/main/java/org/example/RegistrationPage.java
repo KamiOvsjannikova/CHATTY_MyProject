@@ -1,10 +1,7 @@
 package org.example;
-
 import com.codeborne.selenide.SelenideElement;
-
 import java.io.File;
 import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 public class RegistrationPage {
@@ -60,7 +57,6 @@ public class RegistrationPage {
         nameInputField.setValue(nameValue);
     }
 
-
     public void enterEmail(String emailValue) {
         //dozdatsja, chto element otobrazaetsja uvelich vremja
         emailInputField.shouldHave(visible, Duration.ofSeconds(10));
@@ -72,5 +68,4 @@ public class RegistrationPage {
     public void enterConfirmPassword(String confirmPasswordValue) {
         confirmPassword.setValue(confirmPasswordValue);
     }
-
 }
