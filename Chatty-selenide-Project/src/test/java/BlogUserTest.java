@@ -115,7 +115,7 @@ public class BlogUserTest extends BaseTest {
         blogUserPage.clickOnDragNDrop();
         blogUserPage.uploadImage();
         blogUserPage.clickOnSubmitButton();
-        blogUserPage.getErrorMassageTextTitle().shouldBe(Condition.visible).shouldHave(text("Impossible to create empty Title.")); // na sajte drugaja owibka
+        blogUserPage.getErrorMassageTextTitle().shouldBe(Condition.visible).shouldHave(text("Impossible to create empty Title."));
     }
 
     @Test
@@ -128,7 +128,7 @@ public class BlogUserTest extends BaseTest {
         blogUserPage.clickOnDragNDrop();
         blogUserPage.uploadImage();
         blogUserPage.clickOnSubmitButton();
-        blogUserPage.getErrorMassageTextDescription().shouldBe(Condition.visible).shouldHave(text("Impossible to create empty Description."));// na sajte drugaja owibka
+        blogUserPage.getErrorMassageTextDescription().shouldBe(Condition.visible).shouldHave(text("Impossible to create empty Description."));
     }
 
     @Test
@@ -147,6 +147,6 @@ public class BlogUserTest extends BaseTest {
         blogUserPage.clickOnDragNDrop();
         blogUserPage.uploadImage();
         blogUserPage.clickOnSubmitButton();
-        blogUserPage.getErrorMassageTextContent().shouldBe(Condition.visible).shouldHave(text("Impossible to create empty Description."));// na sajte drugaja owibka
+        blogUserPage.getErrorMassageTextContent().shouldBe(Condition.visible).shouldHave(text("Impossible to create empty Description."));
     }
 }
