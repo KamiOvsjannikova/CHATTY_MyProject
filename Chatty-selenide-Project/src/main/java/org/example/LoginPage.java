@@ -4,11 +4,11 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 public class LoginPage {
-    private SelenideElement signUp = $x("//a[contains(@href,'/registration')]"); //<a href="/registration">Sign up</a>
+    private SelenideElement signUp = $x("//a[contains(@href,'/registration')]"); 
     private SelenideElement emailInputField = $("[name='email']");
-    private SelenideElement passwordInputField = $("[placeholder='Password']"); // webelement password
+    private SelenideElement passwordInputField = $("[placeholder='Password']"); 
     private SelenideElement loginButton = $("[type='submit']");//knopka Login
-    private SelenideElement textError = $x("//div[@class='text-error']"); // dlja error message
+    private SelenideElement textError = $x("//div[@class='text-error']"); 
 
 
     public void enterEmail(String emailValue) {
