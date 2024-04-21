@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class DraftPage {
     private SelenideElement messageTextDraftSaveSuccessfully = $x("//div[@class='text-draftsaved']");//pridumalaama v TZ net
-    private ElementsCollection post = $$(byClassName("post-content__top"));//naxozu kollekciju post // .post .post-content
+    private ElementsCollection post = $$(byClassName("post-content__top"));
 
     public void checkDraftPostWithTitleExists(String postTitle) {
         post.filterBy(text(postTitle)).shouldHave(sizeGreaterThan(0));
