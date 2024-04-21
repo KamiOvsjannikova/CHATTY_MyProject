@@ -33,14 +33,14 @@ public class LoginTest extends BaseTest {
         loginPage.enterEmail("testQA311023 @gmail.com");
         loginPage.enterPassword("Milla2103");
 
-        loginPage.getErrorMassageText().shouldBe(Condition.visible).shouldHave(text("You have entered incorrect username or password. Please try again.")); //owibka na sajte  Incorrect email
+        loginPage.getErrorMassageText().shouldBe(Condition.visible).shouldHave(text("You have entered incorrect username or password. Please try again.")); 
     }
     @Test
     public void invalidPassword() {
         loginPage.enterEmail("testQA311023@gmail.com");
         loginPage.enterPassword("Milla");
 
-        loginPage.getErrorMassageText().shouldBe(Condition.visible).shouldHave(text("You have entered incorrect username or password. Please try again.")); //owibka ns sajte Password must be 8-100 characters and include at least one letter and one digit
+        loginPage.getErrorMassageText().shouldBe(Condition.visible).shouldHave(text("You have entered incorrect username or password. Please try again.")); 
     }
 
 
@@ -49,6 +49,6 @@ public class LoginTest extends BaseTest {
         loginPage.enterEmail("test@gmail.com");
         loginPage.enterPassword("Milla2103");
 
-        loginPage.getErrorMassageText().shouldBe(Condition.visible).shouldHave(text("You have entered incorrect username or password. Please try again.")); //owibka na sajte ne imeetsja
+        loginPage.getErrorMassageText().shouldBe(Condition.visible).shouldHave(text("You have entered incorrect username or password. Please try again."));
     }
 }
