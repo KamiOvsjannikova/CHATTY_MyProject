@@ -7,17 +7,17 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class AdminPanelUsersPage {
-    private SelenideElement headerUser = $(byClassName("header__user"));//$x("//div[@class='header__user']"); //najti v header Hello
-    private SelenideElement logo = $x("//a[contains(@href,'/homeblog')]");  // naxozdenie logo
-    private SelenideElement searchByEmail = $("[type='text']");//$("[placeholder='Search by email...']");//najti search by email
+    private SelenideElement headerUser = $(byClassName("header__user"));//$x("//div[@class='header__user']");
+    private SelenideElement logo = $x("//a[contains(@href,'/homeblog')]");  
+    private SelenideElement searchByEmail = $("[type='text']");
     private SelenideElement searchButton = $(byClassName("email-btn"));//knopka search
-    private SelenideElement editIcon = $x("//span[@data-test='editUserButton']"); // //span[@data-test='editUserButton'] knopka Edit dlja opredel email
+    private SelenideElement editIcon = $x("//span[@data-test='editUserButton']"); // //span[@data-test='editUserButton'] 
     private SelenideElement editButton = $x("//span[@data-test='post-header__plus']");
-    private SelenideElement editName = $("[placeholder='Name']"); // Name
-    private SelenideElement editSurname = $("[placeholder='Surname']"); // Surname
+    private SelenideElement editName = $("[placeholder='Name']"); 
+    private SelenideElement editSurname = $("[placeholder='Surname']"); 
     private SelenideElement editPhone = $("[name='phone']");
     private SelenideElement saveButton =$x("//button[@type='submit']");
-    private SelenideElement trashIcon = $x("//span[@data-test='deleteUserButton']//*[name()='svg']//*[name()='path' and contains(@fill,'currentCol')]"); //knopka delete
+    private SelenideElement trashIcon = $x("//span[@data-test='deleteUserButton']//*[name()='svg']//*[name()='path' and contains(@fill,'currentCol')]");
     private SelenideElement tabulaEmail = $x("//*[@id=\"root\"]/div[2]/div/div/table");//$("td:nth-child(3)");
     private SelenideElement checkChangeName = $(byValue("Milla"));
     private SelenideElement checkChangeSurname = $(byValue("Luntikova"));
@@ -38,7 +38,7 @@ public class AdminPanelUsersPage {
         return tabulaEmail;
     }
 
-    public void clickOnTrashIcon() { //knopka dlja edit profile
+    public void clickOnTrashIcon() { 
     trashIcon.click();
     }
     public void clickOnSaveButton(){
@@ -50,14 +50,14 @@ public class AdminPanelUsersPage {
     public void enterSurname(String surnameValue){
         editSurname.setValue(surnameValue);
     }
-    public void enterPhone(String phoneValue) { // dlja izmenenija phone v karte
+    public void enterPhone(String phoneValue) {
         editPhone.setValue(phoneValue);
     }
     public  void clickOnEditButton(){
         editButton.click();
     }
 
-    public void clickOnEditIcon() { //knopka dlja edit profile
+    public void clickOnEditIcon() { 
         editIcon.click();
     }
     public void clickOnSearchButton(){
@@ -72,7 +72,7 @@ public class AdminPanelUsersPage {
     public void clearSearchByEmail(){
         searchByEmail.clear();
     }
-    //dlja Logo
+    
     public SelenideElement getLogo() {
         return logo;
     }
