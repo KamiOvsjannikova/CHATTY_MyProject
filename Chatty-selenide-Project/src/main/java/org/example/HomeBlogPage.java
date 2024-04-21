@@ -11,9 +11,9 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class HomeBlogPage {
     private SelenideElement headerUser = $(byClassName("header__user"));
-    private SelenideElement logo = $x("//a[contains(@href,'/homeblog')]");  // naxozdenie logo
+    private SelenideElement logo = $x("//a[contains(@href,'/homeblog')]");  
     private SelenideElement myDraftTumbler = $x("//span[normalize-space()='My drafts']");
-    private ElementsCollection  postContent =  $$(byClassName("post-content__top"));//post-content__top
+    private ElementsCollection  postContent =  $$(byClassName("post-content__top"));
     private SelenideElement myPostsTumbler = $("label[for='myPostsId']");
     private ElementsCollection allMyPosts = $$ (byClassName("posts__section"));
 
