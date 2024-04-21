@@ -17,8 +17,8 @@ public class BlogUserPage {
     private SelenideElement pictureUploadField = $x("//*[@id=\"root\"]/div[2]/div[2]/div/form/div[4]/input"); // куда клинкуть для загрузки картинки
     private SelenideElement submitButton = $("[type='submit']");
     private SelenideElement myPost = $("div:nth-child(5) div:nth-child(2) div:nth-child(2) h3:nth-child(1)");//$x("body > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(5) > div:nth-child(2) > div:nth-child(2) > h3:nth-child(1)");//najti moj opublikovannij post sredi vsex
-    private SelenideElement draftTumbler = $("label[for='draftCheckbox']"); // tumbler draft
-    private SelenideElement textErrorEmptyTitle = $("body > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > form:nth-child(1) > div:nth-child(1) > p:nth-child(2)"); // dlja error message
+    private SelenideElement draftTumbler = $("label[for='draftCheckbox']");
+    private SelenideElement textErrorEmptyTitle = $("body > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > form:nth-child(1) > div:nth-child(1) > p:nth-child(2)");
     private SelenideElement textErrorEmptyDescription = $("body > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > form:nth-child(1) > div:nth-child(2) > p:nth-child(2)");
     private SelenideElement textErrorEmptyContent = $("body > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > form:nth-child(1) > div:nth-child(3) > p:nth-child(2)");
     public SelenideElement getErrorMassageTextContent() {
